@@ -8,6 +8,7 @@ HH.TweetHeatmap = function () {
 	"use strict";
 	var self,
 		init,
+		pageSetup,
 		allPlaces = [],
 		addPlaces,
 		addSearch,
@@ -15,7 +16,9 @@ HH.TweetHeatmap = function () {
 		getLocation,
 		addToPlace,
 		futureCheck,
-		futureCount = 0;
+		futureCount = 0,
+		rendered = false,
+		displayHeatmap;
 
 	init = function () {
 		var locations, i;
@@ -25,8 +28,7 @@ HH.TweetHeatmap = function () {
 			HH.heatmap.mapLoad();
 		}
 
-		// Set the subtitle
-		document.getElementsByTagName('h2')[0].innerHTML = '#' + window.location.hash.substring(1);
+		pageSetup();
 
 		// Event Listener to reload the page if the hash changes (as this doesn't normally happen)
 		window.addEventListener("hashchange", function (e) {window.location.reload(); }, false);
@@ -42,8 +44,12 @@ HH.TweetHeatmap = function () {
 		for (i in locations) {
 			self.addSearch(locations[i], window.location.hash.substring(1));
 		}
+		
+		// To ensure the user experience isn't held up by slow connections,
+		// draw whatever data we have gathered after a maximum of 8 seconds
+		setTimeout(displayHeatmap, 8000);
 	};
-
+	
 	// Take the coordinates passed in and the hashtag and make a JSONP call
 	// to the Twitter Search API with the callback addPlaces
 	addSearch = function (location, hashtag) {
@@ -99,7 +105,7 @@ HH.TweetHeatmap = function () {
 	// If we've managed to successfully geocode this tweet, 
 	// Add the location to the heatmap's data structure
 	addToPlace = function (data) {
-		if (data.results.length) {
+		if (data.results.length && !rendered) {
 			allPlaces.push({
 				"latitude" : data.results[0].properties.geoLatitude, 
 				"longitude" : data.results[0].properties.geoLongitude,
@@ -116,11 +122,24 @@ HH.TweetHeatmap = function () {
 	// Otherwise, decrease and try again later.
 	futureCheck = function () {
 		self.futureCount--;
-		if (self.futureCount===0) {
-			// Hide the loading animation now that we're done
+		if (self.futureCount<=0) {
+			displayHeatmap();
+		}
+	};
+	
+	// Hide the loading animation now that we're done
+	displayHeatmap = function() {
+		if(!rendered) {
+			rendered = true;
 			document.getElementById('map-loading').style.display = 'none';
 			HH.heatmap.heatmapLoad();
 		}
+	};
+	
+	//Things to do with the page layout and functionality, rather than the map
+	pageSetup = function() {
+		// Set the subtitle
+		document.getElementsByTagName('h2')[0].innerHTML = '#' + window.location.hash.substring(1);
 	};
 
 	// Expose an interface

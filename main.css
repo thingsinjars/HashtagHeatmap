@@ -26,3 +26,11 @@ a {
 	left: 0;
 	z-index: 1;
 }
+h2, input {
+	font-size:1.5em;
+	height: 28px;
+	margin-bottom:0.5em;
+}
+input {
+	height: 22px;
+}

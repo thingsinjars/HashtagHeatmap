@@ -9,6 +9,8 @@ HH.TweetHeatmap = function () {
 	var self,
 		init,
 		pageSetup,
+		switchInput,
+		changeHash,
 		allPlaces = [],
 		addPlaces,
 		addSearch,
@@ -28,10 +30,12 @@ HH.TweetHeatmap = function () {
 			HH.heatmap.mapLoad();
 		}
 
-		pageSetup();
+		// If we have no hash, set one
+		if (window.location.hash === '') {
+			window.location.hash = 'heatmap';
+		}
 
-		// Event Listener to reload the page if the hash changes (as this doesn't normally happen)
-		window.addEventListener("hashchange", function (e) {window.location.reload(); }, false);
+		pageSetup();
 
 		// A list of locations distributed around the world so that we get an even amount of coverage
 		// out of Twitter's geo search (which is ordered by distance from search center point)
@@ -130,16 +134,42 @@ HH.TweetHeatmap = function () {
 	// Hide the loading animation now that we're done
 	displayHeatmap = function() {
 		if(!rendered) {
-			rendered = true;
+			// rendered = true;
 			document.getElementById('map-loading').style.display = 'none';
 			HH.heatmap.heatmapLoad();
 		}
 	};
+
+
 	
 	//Things to do with the page layout and functionality, rather than the map
+	switchInput = function(e){
+			this.style.display='none';
+			var h = document.createElement('input');h.setAttribute('type', 'text');
+			this.parentNode.insertBefore(h,this);
+			h.focus();
+			h.addEventListener('keydown', changeHash, false);
+	};
+
+	changeHash = function(e){
+		if(e.keyCode===13) {
+			window.location.hash='#'+e.target.value.replace('#','');
+		} else if(e.keyCode===27) {
+			e.target.parentNode.removeChild(e.target);
+			document.getElementsByTagName('h2')[0].style.display='block';
+		}
+	};
+
 	pageSetup = function() {
 		// Set the subtitle
 		document.getElementsByTagName('h2')[0].innerHTML = '#' + window.location.hash.substring(1);
+		
+		// Add an event listener to allow the hash to be typed in
+		document.getElementsByTagName('h2')[0].addEventListener('click', switchInput, false)
+		
+		// Event Listener to reload the page if the hash changes (as this doesn't normally happen)
+		window.addEventListener("hashchange", function (e) {window.location.reload(); }, false);
+		
 	};
 
 	// Expose an interface

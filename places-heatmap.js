@@ -45,11 +45,13 @@ HH.HeatmapLoader = function () {
 			 * the lower your data points get they will get a color defined by 0
 			 */
 			stops: {
-				"0": "#E8680C",
-				"0.25": "#F5A400",
-				"0.5": "#FF9000",
-				"0.75": "#FF4600",
-				"1": "#F51F00"
+				//because we're always at world level, it makes sense to span the gradient
+				//across low range values in the density map
+				"0": "rgba(0, 0, 64, 1)",
+				"0.15": "rgba(0, 0, 64, 1)",
+				"0.3": "rgb(32, 32, 96)",
+				"0.4": "rgb(96, 96, 128)",
+				"0.5": "rgb(255, 255, 255)"
 			},
 			// Whether we should interpolate between the stops to create a smooth color gradient
 			interpolate: true
@@ -67,7 +69,9 @@ HH.HeatmapLoader = function () {
 					// Defines if our heatmap is value or density based
 					type: "density",
 					// Coarseness defines the resolution with which the heat map is created.
-					coarseness: 2
+					coarseness: 1,
+					// Fill everything that has no value with the color for the minimum value
+					assumeValues: true
 				});
 			}
 		} catch (e) {

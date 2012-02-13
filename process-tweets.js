@@ -134,7 +134,7 @@ HH.TweetHeatmap = function () {
 	// Hide the loading animation now that we're done
 	displayHeatmap = function() {
 		if(!rendered) {
-			// rendered = true;
+			rendered = true;
 			document.getElementById('map-loading').style.display = 'none';
 			HH.heatmap.heatmapLoad();
 		}

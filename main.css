@@ -1,16 +1,18 @@
 body {
-  text-align:center;
-  background:#eee;
-  font-family:sans-serif;
-  color:#1f3f5f;
-  text-shadow:1px 1px 0 #fff;
-  height:100%;
-  width:100%;
+	text-align: center;
+	background: #1F3F5F;
+	font-family: sans-serif;
+	color: #EEE;
+	text-shadow: 1px 1px 0 black;
+	height: 100%;
+	width: 100%;
 }
 a {
-  color:#1f3f5f;
-  text-decoration:none;
-}
+	color: #4DA6FF;
+	text-decoration: none;
+	border-bottom: 1px solid #4DA6FF;
+	display: inline-block;
+	box-shadow: 0 1px 0 black;}
 .map {
 	margin:0 auto;
 	width:1200px;

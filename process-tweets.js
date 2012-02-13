@@ -161,15 +161,17 @@ HH.TweetHeatmap = function () {
 	};
 
 	pageSetup = function() {
-		// Set the subtitle
-		document.getElementsByTagName('h2')[0].innerHTML = '#' + window.location.hash.substring(1);
+        if (!(document.getElementsByTagName('body')[0].classList.length === 1 && document.getElementsByTagName('body')[0].classList[0] === "embed")) {
+    		// Set the subtitle
+    		document.getElementsByTagName('h2')[0].innerHTML = '#' + window.location.hash.substring(1);
 		
-		// Add an event listener to allow the hash to be typed in
-		document.getElementsByTagName('h2')[0].addEventListener('click', switchInput, false)
+    		// Add an event listener to allow the hash to be typed in
+    		document.getElementsByTagName('h2')[0].addEventListener('click', switchInput, false)
 		
-		// Event Listener to reload the page if the hash changes (as this doesn't normally happen)
-		window.addEventListener("hashchange", function (e) {window.location.reload(); }, false);
+    		// Event Listener to reload the page if the hash changes (as this doesn't normally happen)
+    		window.addEventListener("hashchange", function (e) {window.location.reload(); }, false);
 		
+		}
 	};
 
 	// Expose an interface

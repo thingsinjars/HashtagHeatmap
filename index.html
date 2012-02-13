@@ -13,6 +13,34 @@
 	<p>This is a map showing density of tweets about a particular hashtag using <a href="http://api.maps.nokia.com/2.1.0/playground/">Nokia Maps API</a> <a href="http://api.maps.nokia.com/2.1.0/apireference/symbols/nokia.maps.heatmap.Overlay.html">Heatmap overlay</a>.</p>
 	<h2></h2>
 	<div id="map" class="map"><div id="map-loading" class="map-loading"></div></div>
+	<ul class="shareable">
+        <li>Embed this in your page:<textarea><iframe src="http://thelab.thingsinjars.com/maps/HashtagHeatmap/embed.html#nokiamaps"></iframe></textarea></li>
+		<li class="sharing sharing-twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a></li>
+		<li class="sharing sharing-google-plus"><div class="g-plusone" data-size="medium" data-count="true"></div></li>
+		<li class="sharing sharing-facebook"><div id="fb-root"></div><div class="fb-like" data-send="false" data-layout="button_count" data-width="1" data-show-faces="false" data-action="recommend"></div></li>
+	</ul>
+	<script>
+(function(doc, script) {
+    var js, fjs = doc.getElementsByTagName(script)[0],
+        frag = doc.createDocumentFragment(),
+        add = function(url, id) {
+            if (doc.getElementById(id)) {
+                return;
+            }
+            js = doc.createElement(script);
+            js.src = url;
+            id && (js.id = id);
+            frag.appendChild(js);
+        };
+    // Google+ button
+    add('https://apis.google.com/js/plusone.js');
+    // Facebook SDK
+    add('//connect.facebook.net/en_US/all.js#xfbml=1', 'facebook-jssdk');
+    // Twitter SDK
+    add('//platform.twitter.com/widgets.js');
+    fjs.parentNode.insertBefore(frag, fjs);
+}(document, 'script'));
+    </script>
 	<script src="http://platform.twitter.com/anywhere.js?id=HHGqiCyavlUCYPKpfukg&v=1"></script>
 	<script src="http://api.maps.nokia.com/2.1.0/jsl.js?kml=auto&heatmap=auto"></script>
 	<script src="places-heatmap.js"></script>
